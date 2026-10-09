@@ -16,6 +16,7 @@ import android.widget.*;
 public class MainActivity extends Activity {
     private final String[] platforms = {"Cakto", "Kiwify", "Eduzz", "Hotmart"};
     private final int[] colors = {0xff146342, 0xff237b40, 0xff1859ad, 0xffbf3d16};
+    private final int[] platformIcons = {R.drawable.logo_cakto, R.drawable.logo_kiwify, R.drawable.logo_eduzz, R.drawable.logo_hotmart};
     private static final String CHANNEL = "simulation";
     private Spinner platform;
     private EditText value;
@@ -64,7 +65,7 @@ public class MainActivity extends Activity {
         Button settings = new Button(this); settings.setText("Configurações de notificação"); settings.setAllCaps(false);
         settings.setOnClickListener(v -> startActivity(new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName())));
         box.addView(settings); gap(box, 12);
-        box.addView(text("Os ícones são ilustrativos. O Android identifica a origem como Notificação.", 13, false));
+        box.addView(text("O Android identifica a origem como Notificação.", 13, false));
         platform.setSelection(getPreferences(0).getInt("platform", 0)); value.setText(getPreferences(0).getString("value", "7,87"));
         value.addTextChangedListener(new TextWatcher() {
             public void beforeTextChanged(CharSequence s,int start,int count,int after){}
@@ -100,6 +101,7 @@ public class MainActivity extends Activity {
         PendingIntent open = PendingIntent.getActivity(this,0,new Intent(this,MainActivity.class),PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
         Notification notification = new Notification.Builder(this, CHANNEL)
             .setSmallIcon(com.atos.vendademo.R.drawable.ic_notification)
+            .setLargeIcon(android.graphics.drawable.Icon.createWithResource(this, platformIcons[pendingPlatform]))
             .setColor(colors[pendingPlatform])
             .setContentTitle("Venda Aprovada!")
             .setContentText("Valor: " + pendingAmount)
