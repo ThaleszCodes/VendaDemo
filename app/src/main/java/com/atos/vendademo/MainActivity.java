@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.*;
 import android.content.*;
 import android.content.pm.PackageManager;
-import android.graphics.*;
 import android.graphics.drawable.GradientDrawable;
 import android.os.*;
 import android.provider.Settings;
@@ -97,13 +96,10 @@ public class MainActivity extends Activity {
         if (!manager.areNotificationsEnabled() || channel.getImportance() == NotificationManager.IMPORTANCE_NONE) {
             feedback.setText("Notificações bloqueadas. Ative nas configurações abaixo."); return;
         }
-        Bitmap icon = Bitmap.createBitmap(96,96, Bitmap.Config.ARGB_8888); Canvas canvas = new Canvas(icon);
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG); paint.setColor(colors[pendingPlatform]); canvas.drawCircle(48,48,46,paint);
-        paint.setColor(Color.WHITE); paint.setTextSize(48); paint.setTypeface(Typeface.DEFAULT_BOLD); paint.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText(platforms[pendingPlatform].substring(0,1),48,65,paint);
         PendingIntent open = PendingIntent.getActivity(this,0,new Intent(this,MainActivity.class),PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
         Notification notification = new Notification.Builder(this, CHANNEL)
-            .setSmallIcon(com.atos.vendademo.R.drawable.ic_notification).setLargeIcon(icon)
+            .setSmallIcon(com.atos.vendademo.R.drawable.ic_notification)
+            .setColor(colors[pendingPlatform])
             .setContentTitle("Venda Aprovada!")
             .setContentText("Valor: " + pendingAmount)
             .setSubText(platforms[pendingPlatform])
